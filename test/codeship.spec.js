@@ -10,6 +10,10 @@ describe('Codeship module', function() {
     apiKey = '12345';
   });
 
+  afterEach(function() {
+    nock.cleanAll();
+  });
+
   describe('instantiation', function() {
     it('throws an error if an API key is not provided', function() {
       expect(function() {new Codeship()}).toThrow(new Error('A Codeship API key must be passed to the constructor.'));
@@ -18,6 +22,25 @@ describe('Codeship module', function() {
     it('sets the API key property to the specified API key', function() {
       var codeship = new Codeship({apiKey: apiKey});
       expect(codeship._apiKey).toBe(apiKey);
+    });
+  });
+
+  describe('builds', function() {
+    var builds = [
+      {id: 1}
+    ];
+
+    describe('restart', function() {
+      it('restarts the specified build', function(done) {
+        nock(baseUrl)
+          .post('/builds/1/restart.json?api_key=' + apiKey)
+          .reply(200, builds[0]);
+
+        makeCodeship().builds.restart(1, function(err, data) {
+          expect(data).toEqual(builds[0]);
+          done();
+        });
+      })
     });
   });
 
@@ -36,10 +59,6 @@ describe('Codeship module', function() {
           });
 
         makeCodeship().projects.list(function(err, data) {
-          if (!nock.isDone()) {
-            fail();
-          }
-
           expect(data).toEqual(projects);
           done();
         });
@@ -61,10 +80,6 @@ describe('Codeship module', function() {
           .reply(200, projects[0]);
 
         makeCodeship().projects.get(1, function(err, data) {
-          if (!nock.isDone()) {
-            fail();
-          }
-
           expect(data).toEqual(projects[0]);
           done();
         });

@@ -10,6 +10,7 @@ class Codeship {
     this._baseUrl = 'https://codeship.com/api/v1';
 
     this.projects = {};
+    this.builds = {};
 
     // FIXME: if callback isn't defined the caller's app will die
     this.projects.list = (cb) => {
@@ -26,8 +27,20 @@ class Codeship {
         cb('A project ID must be specified.', null);
         return;
       }
-      
+
       this._performRequest(`/projects/${id}.json`, cb);
+    };
+
+    this.builds.restart = (id, cb) => {
+      if (!id) {
+        return;
+      } else if (typeof id === 'function') {
+        cb = id;
+        cb('A build ID must be specified.', null);
+        return;
+      }
+
+      this._performRequest(`/builds/${id}/restart.json`, cb, 'POST');
     };
 
   }
