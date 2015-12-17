@@ -22,8 +22,10 @@ codeship.projects.list(function(err, projects) {
 }):
 ```
 
-### Available methods
+## Available methods
 
+* builds
+ * `restart(build_id, cb)`
 * projects
  * `get(project_id, cb)`
  * `list(cb)`
