@@ -22,7 +22,6 @@ describe('Codeship module', function() {
   });
 
   describe('projects', function() {
-    var projectsResource = '/projects.json';
     var projects = [
       {id: 1},
       {id: 2}
@@ -31,7 +30,7 @@ describe('Codeship module', function() {
     describe('list', function() {
       it('retrieves and returns available projects', function(done) {
         nock(baseUrl)
-          .get(projectsResource + '?api_key=' + apiKey)
+          .get('/projects.json?api_key=' + apiKey)
           .reply(200, {
             projects: projects
           });
@@ -48,7 +47,28 @@ describe('Codeship module', function() {
     });
 
     describe('get', function() {
+      it('returns an error if a project ID is not specified', function(done) {
+        makeCodeship().projects.get(function(err, data) {
+          expect(err).toBe('A project ID must be specified.');
+          expect(data).toBe(null);
+          done();
+        });
+      });
 
+      it('retrieves and returns the specified project', function(done) {
+        nock(baseUrl)
+          .get('/projects/1.json?api_key=' + apiKey)
+          .reply(200, projects[0]);
+
+        makeCodeship().projects.get(1, function(err, data) {
+          if (!nock.isDone()) {
+            fail();
+          }
+
+          expect(data).toEqual(projects[0]);
+          done();
+        });
+      });
     });
   });
 
