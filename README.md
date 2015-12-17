@@ -1,4 +1,6 @@
 # codeship-node
+![](https://travis-ci.org/tcrammond/codeship-node.svg?branch=master)
+
 Codeship API for node - https://codeship.com/documentation/integrations/api/
 
 ## Usage
