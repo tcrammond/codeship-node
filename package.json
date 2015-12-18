@@ -1,7 +1,7 @@
 {
   "name": "codeship-node",
-  "version": "0.1.0",
-  "description": "Node API wrapper for Codeship.",
+  "version": "0.2.0",
+  "description": "Codeship API for node",
   "main": "lib/Codeship.js",
   "scripts": {
     "compile": "babel --presets es2015,stage-0 -d lib/ src/",
