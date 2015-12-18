@@ -1,8 +1,9 @@
 var nock = require('nock');
 
 var Codeship = require('../lib/codeship');
+var Builds = require('../lib/resources/builds');
 
-describe('Codeship module', function() {
+describe('Codeship', function() {
   var baseUrl = 'https://codeship.com/api/v1';
   var apiKey;
 
@@ -20,23 +21,24 @@ describe('Codeship module', function() {
     });
 
     it('sets the API key property to the specified API key', function() {
-      var codeship = new Codeship({apiKey: apiKey});
+      var codeship = makeCodeship();
       expect(codeship._apiKey).toBe(apiKey);
     });
   });
 
-  describe('builds', function() {
+  describe('Builds', function() {
     var builds = [
       {id: 1}
     ];
 
-    describe('restart', function() {
+    describe('restart()', function() {
       it('restarts the specified build', function(done) {
         nock(baseUrl)
           .post('/builds/1/restart.json?api_key=' + apiKey)
           .reply(200, builds[0]);
 
         makeCodeship().builds.restart(1, function(err, data) {
+          if(!nock.isDone()) console.error('NOT DONE');
           expect(data).toEqual(builds[0]);
           done();
         });
@@ -44,13 +46,13 @@ describe('Codeship module', function() {
     });
   });
 
-  describe('projects', function() {
+  describe('Projects', function() {
     var projects = [
       {id: 1},
       {id: 2}
     ];
 
-    describe('list', function() {
+    describe('list()', function() {
       it('retrieves and returns available projects', function(done) {
         nock(baseUrl)
           .get('/projects.json?api_key=' + apiKey)
@@ -65,7 +67,7 @@ describe('Codeship module', function() {
       });
     });
 
-    describe('get', function() {
+    describe('get()', function() {
       it('returns an error if a project ID is not specified', function(done) {
         makeCodeship().projects.get(function(err, data) {
           expect(err).toBe('A project ID must be specified.');
@@ -88,6 +90,6 @@ describe('Codeship module', function() {
   });
 
   function makeCodeship() {
-    return new Codeship({apiKey: apiKey});
+    return new Codeship({apiKey: apiKey, baseUrl: baseUrl});
   }
 });

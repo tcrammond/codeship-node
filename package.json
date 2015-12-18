@@ -2,10 +2,10 @@
   "name": "codeship-node",
   "version": "0.1.0",
   "description": "Node API wrapper for Codeship.",
-  "main": "lib/codeship.js",
+  "main": "lib/Codeship.js",
   "scripts": {
-    "compile": "babel --presets es2015 -d lib/ src/",
-    "dev": "babel --watch --presets es2015 -d lib/ src/",
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "dev": "babel --watch --presets es2015,stage-0 -d lib/ src/",
     "test": "jasmine-node test --captureExceptions"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "babel": "^6.3.13",
     "babel-cli": "^6.3.17",
     "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
     "jasmine": "^2.4.1",
     "jasmine-node": "^1.14.5",
     "nock": "^3.5.0"
