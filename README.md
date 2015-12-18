@@ -1,4 +1,6 @@
 # codeship-node
+![](https://travis-ci.org/tcrammond/codeship-node.svg?branch=master)
+
 Codeship API for node - https://codeship.com/documentation/integrations/api/
 
 ## Usage
@@ -20,8 +22,10 @@ codeship.projects.list(function(err, projects) {
 }):
 ```
 
-### Available methods
+## Available methods
 
+* builds
+ * `restart(build_id, cb)`
 * projects
  * `get(project_id, cb)`
  * `list(cb)`
