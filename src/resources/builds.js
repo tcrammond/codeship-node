@@ -2,12 +2,6 @@
 var CodeshipResource = require('../Resource');
 
 class Builds extends CodeshipResource {
-  list(projectId, cb) {
-    this._performRequest('/builds.json', (err, body) => {
-      cb(err, body);
-    });
-  };
-
   restart(id, cb) {
     if (!id) {
       return;
