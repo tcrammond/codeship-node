@@ -1,6 +1,6 @@
 var nock = require('nock');
 
-var Codeship = require('./../lib/codeship');
+var Codeship = require('./../lib/Codeship');
 
 describe('Codeship', function() {
   var baseUrl = 'https://codeship.com/api/v1';
